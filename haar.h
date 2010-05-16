@@ -23,6 +23,8 @@
 #ifndef HAAR_H
 #define HAAR_H
 
+//uh-oh, we might accidentally pull in the min and max from the standard library, make sure that doesn't happen.
+
 /* STL Includes */
 #include <queue>
 
@@ -59,8 +61,9 @@ typedef struct valStruct_{
 
 typedef std::priority_queue < valStruct > valqueue;
 
-#define max(a, b)  (((a) > (b)) ? (a) : (b))
-#define min(a, b)  (((a) > (b)) ? (b) : (a))
+//let's not redefine these and say we did. It pisses the compiler off.
+//#define max(a, b)  (((a) > (b)) ? (a) : (b))
+//#define min(a, b)  (((a) > (b)) ? (b) : (a))
 
 void initImgBin();
 void transform(Unit* a, Unit* b, Unit* c);
