@@ -49,7 +49,10 @@ using namespace std;
 #include "bloom_filter.h"
 #include "imgdb.h"
 
-//this will probably break again if it ever touches windows.h, this is a reminder for me to actually remove this.
+#undef min
+#undef max
+
+//this will probably break horribly if it ever touches windows.h or stl crap, this is a reminder for me to actually remove this.
 #define max(a, b)  (((a) > (b)) ? (a) : (b))
 #define min(a, b)  (((a) > (b)) ? (b) : (a))
 
