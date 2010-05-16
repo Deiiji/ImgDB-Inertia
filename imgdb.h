@@ -93,11 +93,12 @@ protected:
 	dbSpaceMapType dbSpace;
 	keywordsMapType globalKwdsMap;
 	unsigned char imgBin[16384];
-	int imgBinInited = 0;
+	int imgBinInited;
 	
 public:
 	ImgDB()
 	{
+		imgBinInited = 0;
 		initImgBin();
 	}
 	~ImgDB()
