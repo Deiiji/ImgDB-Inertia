@@ -20,11 +20,11 @@ except:
 
 ############## Init some vars
 if 0: # java build
-  extra_compile_args=["-O3","-DLinuxBuild","-DISK_SWIG_JAVA"]
+  extra_compile_args=["-O2","-DLinuxBuild","-DISK_SWIG_JAVA"]
   extra_link_args=['/usr/lib/jvm/java-6-sun-1.6.0.03/jre/lib/amd64/server/libjvm.so']
   include_dirs = ['/usr/lib/jvm/java-6-sun/include/','/usr/lib/jvm/java-6-sun/include/linux/']
 else: # python build
-  extra_compile_args=["-O3","-DLinuxBuild"]
+  extra_compile_args=["-O2","-DLinuxBuild"]
   #extra_link_args=['-static'] # won't compile on AMD_64 with "static" 
   extra_link_args=[]
   include_dirs = []

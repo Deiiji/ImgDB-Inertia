@@ -61,10 +61,6 @@ To be treated as a constant.
 #define validate_dbid(dbId) (dbSpace.count(dbId)) 
 #define validate_imgid(dbId, imgId) (dbSpace.count(dbId) && (dbSpace[dbId]->sigs.count(imgId)))
 
-// Typedefs
-typedef std::map<const int, dbSpaceStruct*> dbSpaceMapType;
-typedef std::map<const int, dbSpaceStruct*>::iterator  dpspaceIterator;
-
 
 void ImgDB::initImgBin()
 {
@@ -927,7 +923,7 @@ double ImgDB::calcDiff(const int dbId, long int id1, long int id2)
 	return diff;
 }
 
-int destroydb(const int dbId) {
+int ImgDB::destroydb(const int dbId) {
 	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return 0;}
 	throw string("not yet implemented");		
 	return 1;
