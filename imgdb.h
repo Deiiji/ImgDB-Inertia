@@ -1,5 +1,5 @@
 /***************************************************************************
-    imgSeek ::  databse C++ module
+    imgSeek ::  database C++ module
                              -------------------
     begin                : Fri Jan 17 2003
     email                : nieder|at|mail.ru
@@ -85,6 +85,94 @@ typedef __gnu_cxx::hash_set<int> int_hashset;
 using namespace stdext;
 typedef stdext::hash_set<int> int_hashset;
 #endif
+
+//There I fixed it
+class ImgDB
+{
+protected:
+	dbSpaceMapType dbSpace;
+	keywordsMapType globalKwdsMap;
+	unsigned char imgBin[16384];
+	int imgBinInited = 0;
+	
+public:
+	ImgDB()
+	{
+		initImgBin();
+	}
+	~ImgDB()
+	{
+		delete[] imgBin;
+	}
+
+	// Main exported functions
+	double_vector queryImgID(const int dbId, long int id,int numres);
+	double_vector queryImgIDFast(const int dbId, long int id, int numres);
+	double_vector queryImgData(const int dbId, Idx * sig1, Idx * sig2, Idx * sig3, double *avgl, int numres, int sketch);
+	int addImage(const int dbId, const long int id, char* filename);
+	int savedb(const int dbId, char* filename);
+	int loaddb(const int dbId, char* filename);
+	int savealldbs(char* filename);
+	int loadalldbs(char* filename);
+	int removeID(const int dbId, long int id);
+	int resetdb(const int dbId);
+	void initDbase(const int dbId) ;
+	void closeDbase();
+	long int getImgCount(const int dbId);
+	bool isImageOnDB(const int dbId, long int id);
+	int getImageHeight(const int dbId, long int id);
+	int getImageWidth(const int dbId, long int id);
+	double calcAvglDiff(const int dbId, long int id1, long int id2);
+	double calcDiff(const int dbId, long int id1, long int id2);
+	double_vector getImageAvgl(const int dbId, long int id1);
+	int addImageBlob(const int dbId, const long int id, const void *blob, const long length);
+	std::vector<int> getDBList();
+	std::vector<long int> getImgIdList(const int dbId);
+	bool isValidDB(const int dbId);
+	int destroydb(const int dbId);
+	bool removedb(const int dbId);
+
+	// keywords in images
+	bool addKeywordImg(const int dbId, const int id, const int hash);
+	bool addKeywordsImg(const int dbId, const int id, std::vector<int> hashes);
+	bool removeKeywordImg(const int dbId, const int id, const int hash);
+	bool removeAllKeywordImg(const int dbId, const int id);
+	std::vector<int> getKeywordsImg(const int dbId, const int id);
+
+	// query by keywords
+	std::vector<double> queryImgIDKeywords(const int dbId, long int id, int numres, int kwJoinType, std::vector<int> keywords);
+	std::vector<double> queryImgIDFastKeywords(const int dbId, long int id, int numres, int kwJoinType, std::vector<int> keywords);
+	std::vector<double> queryImgDataFastKeywords(const int dbId, int * sig1, int * sig2, int * sig3, double *avgl, int numres, int sketch, int kwJoinType, std::vector<int> keywords);
+	std::vector<long int> getAllImgsByKeywords(const int dbId, const int numres, int kwJoinType, std::vector<int> keywords);
+	double getKeywordsVisualDistance(const int dbId, int distanceType, std::vector<int> keywords);
+	std::vector<int> mostPopularKeywords(const int dbId, std::vector<long int> imgs, std::vector<int> excludedKwds, int count, int mode);
+
+	// keywords
+	std::vector<int> getKeywordsPopular(const int dbId, const int numres);
+
+	typedef std::map<const int, keywordStruct*> keywordsMapType;
+	typedef std::map<const int, keywordStruct*>::iterator  keywordsMapIterator;
+
+	// clustering
+	/* cluster list structure */
+	typedef struct clustersStruct_{
+		imageId id;			/* representative image id */
+		std::vector<long int> imgIds;	/* img list */
+		double diameter;		
+	} clustersStruct;
+
+	typedef std::list<clustersStruct> cluster_list;
+	typedef cluster_list::iterator cluster_listIterator;
+
+	std::vector<clustersStruct> getClusterDb(const int dbId, const int numClusters);
+	std::vector<clustersStruct> getClusterKeywords(const int dbId, const int numClusters,std::vector<int> keywords);
+
+	// summaries
+	bloom_filter* getIdsBloomFilter(const int dbId);
+
+	// util
+	keywordStruct* getKwdPostings(int hash);
+};
 
 class SigStruct;
 
@@ -259,83 +347,6 @@ public:
 #define	SRZ_PLAT_LINUX			2
 #define	SRZ_LANG_PYTHON			1
 #define	SRZ_LANG_JAVA			2
-
-//There I fixed it
-class ImgDB
-{
-protected:
-	typedef std::map<const int, dbSpaceStruct*> dbSpaceMapType;
-	typedef std::map<const int, dbSpaceStruct*>::iterator  dpspaceIterator;
-	
-public:
-	// Main exported functions
-	double_vector queryImgID(const int dbId, long int id,int numres);
-	double_vector queryImgIDFast(const int dbId, long int id, int numres);
-	double_vector queryImgData(const int dbId, Idx * sig1, Idx * sig2, Idx * sig3, double *avgl, int numres, int sketch);
-	int addImage(const int dbId, const long int id, char* filename);
-	int savedb(const int dbId, char* filename);
-	int loaddb(const int dbId, char* filename);
-	int savealldbs(char* filename);
-	int loadalldbs(char* filename);
-	int removeID(const int dbId, long int id);
-	int resetdb(const int dbId);
-	void initDbase(const int dbId) ;
-	void closeDbase();
-	long int getImgCount(const int dbId);
-	bool isImageOnDB(const int dbId, long int id);
-	int getImageHeight(const int dbId, long int id);
-	int getImageWidth(const int dbId, long int id);
-	double calcAvglDiff(const int dbId, long int id1, long int id2);
-	double calcDiff(const int dbId, long int id1, long int id2);
-	double_vector getImageAvgl(const int dbId, long int id1);
-	int addImageBlob(const int dbId, const long int id, const void *blob, const long length);
-	std::vector<int> getDBList();
-	std::vector<long int> getImgIdList(const int dbId);
-	bool isValidDB(const int dbId);
-	int destroydb(const int dbId);
-	bool removedb(const int dbId);
-
-	// keywords in images
-	bool addKeywordImg(const int dbId, const int id, const int hash);
-	bool addKeywordsImg(const int dbId, const int id, std::vector<int> hashes);
-	bool removeKeywordImg(const int dbId, const int id, const int hash);
-	bool removeAllKeywordImg(const int dbId, const int id);
-	std::vector<int> getKeywordsImg(const int dbId, const int id);
-
-	// query by keywords
-	std::vector<double> queryImgIDKeywords(const int dbId, long int id, int numres, int kwJoinType, std::vector<int> keywords);
-	std::vector<double> queryImgIDFastKeywords(const int dbId, long int id, int numres, int kwJoinType, std::vector<int> keywords);
-	std::vector<double> queryImgDataFastKeywords(const int dbId, int * sig1, int * sig2, int * sig3, double *avgl, int numres, int sketch, int kwJoinType, std::vector<int> keywords);
-	std::vector<long int> getAllImgsByKeywords(const int dbId, const int numres, int kwJoinType, std::vector<int> keywords);
-	double getKeywordsVisualDistance(const int dbId, int distanceType, std::vector<int> keywords);
-	std::vector<int> mostPopularKeywords(const int dbId, std::vector<long int> imgs, std::vector<int> excludedKwds, int count, int mode);
-
-	// keywords
-	std::vector<int> getKeywordsPopular(const int dbId, const int numres);
-
-	typedef std::map<const int, keywordStruct*> keywordsMapType;
-	typedef std::map<const int, keywordStruct*>::iterator  keywordsMapIterator;
-
-	// clustering
-	/* cluster list structure */
-	typedef struct clustersStruct_{
-		imageId id;			/* representative image id */
-		std::vector<long int> imgIds;	/* img list */
-		double diameter;		
-	} clustersStruct;
-
-	typedef std::list<clustersStruct> cluster_list;
-	typedef cluster_list::iterator cluster_listIterator;
-
-	std::vector<clustersStruct> getClusterDb(const int dbId, const int numClusters);
-	std::vector<clustersStruct> getClusterKeywords(const int dbId, const int numClusters,std::vector<int> keywords);
-
-	// summaries
-	bloom_filter* getIdsBloomFilter(const int dbId);
-
-	// util
-	keywordStruct* getKwdPostings(int hash);
-};
 
 /* keyword postings structure */
 #define AVG_IMGS_PER_KWD 1000
