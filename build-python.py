@@ -127,6 +127,17 @@ setup(#name="isk-daemon",
                   extra_link_args=extra_link_args,
                   libraries = libraries,
                   swig_opts = ['-c++']
+                 ),
+        Extension("libimgdb-dbg",["imgdb.cpp",
+                           "haar.cpp",
+                           "bloom_filter.cpp"
+                                      ],
+                  include_dirs = include_dirs,
+                  library_dirs = library_dirs,
+                  extra_compile_args=extra_compile_args + ["-DDebugLib -ggdb"],
+                  extra_link_args=extra_link_args + ["-ggdb"],
+                  libraries = libraries,
+                  swig_opts = ['-c++']
                  )]
       
      )

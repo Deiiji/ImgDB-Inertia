@@ -295,6 +295,7 @@ private:
 	unsigned char imgBin[16384];
 	int imgBinInited;
 	void initImgBin();
+	void closeDbase();
 	
 public:
 	ImgDB()
@@ -304,7 +305,7 @@ public:
 	}
 	~ImgDB()
 	{
-		delete[] imgBin;
+		closeDbase();
 	}
 
 	// Main exported functions
@@ -319,7 +320,6 @@ public:
 	int removeID(const int dbId, long int id);
 	int resetdb(const int dbId);
 	void initDbase(const int dbId) ;
-	void closeDbase();
 	long int getImgCount(const int dbId);
 	bool isImageOnDB(const int dbId, long int id);
 	int getImageHeight(const int dbId, long int id);
@@ -348,6 +348,10 @@ public:
 
 	// summaries
 	bloom_filter* getIdsBloomFilter(const int dbId);
+	
+	//debugging functions
+	void lazyPrintImgIdList(const int dbId);
+	void lazyPrintDBList();
 } ;
 
 #endif

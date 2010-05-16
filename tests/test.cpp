@@ -19,6 +19,7 @@
 
 
 #include <iostream>
+#include <vector>
 #include "imgdb.h"
 
 int main(int argc, char **argv)
@@ -27,10 +28,26 @@ int main(int argc, char **argv)
 	ImgDB* testDB = new ImgDB();
 	
 	testDB->initDbase(1);
+	testDB->initDbase(99);
 	testDB->addImage(1, 6, "./testimages/lena/lenna-orig.jpg");
 	
+	std::cout << "Database List:" << std::endl << std::endl;
+	
+	testDB->lazyPrintDBList();
+	
+	std::cout << std::endl;
+	
+	std::cout << "Image List for database 1:" << std::endl << std::endl;
+	
+	testDB->lazyPrintImgIdList(1);
+	
+	std::cout << std::endl;
+	
+	
+	
 	//everything seems to be in order... let's test the destructor.
-	delete[] *testDB;
+	
+	delete[] testDB;
 	
 	std::cout << "We haven't quit so far, all tests must have completed successfully!" << std::endl;
 	return 0;

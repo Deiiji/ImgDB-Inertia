@@ -111,6 +111,9 @@ void ImgDB::initDbase(const int dbId) {
 void ImgDB::closeDbase() {
 	/* should be called before exiting app */
 	for (dpspaceIterator it = dbSpace.begin(); it != dbSpace.end(); it++) {
+#ifdef DebugLib
+		std::cout << (*it).first << std::endl;
+#endif
 		resetdb((*it).first);
 		delete (*it).second;
 	}
@@ -995,6 +998,17 @@ std::vector<int> ImgDB::getDBList() {
 	return ids;
 }
 
+void ImgDB::lazyPrintDBList() {
+	int i;
+	std::vector<int> dbListNums = getDBList();
+	int vectorSize = dbListNums.size();
+
+	for(i=0; i < vectorSize; ++i)
+	{
+		std::cout << dbListNums[i] << std::endl;
+	}
+}
+
 std::vector<long int> ImgDB::getImgIdList(const int dbId) {
 	vector<long int> ids;
 
@@ -1004,6 +1018,17 @@ std::vector<long int> ImgDB::getImgIdList(const int dbId) {
 	}
 
 	return ids;
+}
+
+void ImgDB::lazyPrintImgIdList(const int dbId) {
+	int i;
+	vector<long int> imgIdListNums = getImgIdList(dbId);
+	int vectorSize = imgIdListNums.size();
+
+	for(i=0; i < vectorSize; ++i)
+	{
+		std::cout << imgIdListNums[i] << std::endl;
+	}
 }
 
 bool ImgDB::isValidDB(const int dbId) {
