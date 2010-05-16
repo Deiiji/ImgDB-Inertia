@@ -49,6 +49,9 @@ using namespace std;
 #include "bloom_filter.h"
 #include "imgdb.h"
 
+#define max(a, b)  (((a) > (b)) ? (a) : (b))
+#define min(a, b)  (((a) > (b)) ? (b) : (a))
+
 /* Fixed weight mask for pixel positions (i,j).
 Each entry x = i*NUM_PIXELS + j, gets value max(i,j) saturated at 5.
 To be treated as a constant.
