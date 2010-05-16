@@ -117,7 +117,7 @@ setup(#name="isk-daemon",
       #packages=['imgSeekLib', 'Cheetah','iskLib'],
       #scripts= ['isk-daemon.py','settings.py','web.py','isk-genkey.py'],
       ext_modules = [
-        Extension("libimgdb",["imgdb.cpp",
+        Extension("imgdb",["imgdb.cpp",
                            "haar.cpp",
                            "bloom_filter.cpp"
                                       ],
