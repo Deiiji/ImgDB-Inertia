@@ -328,6 +328,18 @@ public:
 	bool isValidDB(const int dbId);
 	int destroydb(const int dbId);
 	bool removedb(const int dbId);
+	
+	//other public functions I forgot, I'm pretty much pasting them verbatim from the gcc errors
+	int loaddbfromstream(int, std::ifstream&, srzMetaDataStruct&);
+	srzMetaDataStruct loadGlobalSerializationMetadata(std::ifstream&);
+	int addImageFromImage(int, long int, Image*);
+	int savedbtostream(int, std::ofstream&);
+	void saveGlobalSerializationMetadata(std::ofstream&);
+	double_vector queryImgDataFiltered(int, Idx*, Idx*, Idx*, double*, int, int, bloom_filter*);
+	double_vector queryImgDataFast(int, Idx*, Idx*, Idx*, double*, int, int);
+	long_list queryImgDataForThres(int, sigMap*, Idx*, Idx*, Idx*, double*, float, int);
+	long_list queryImgDataForThresFast(sigMap*, double*, float, int);
+	double_vector queryImgIDFiltered(int, long int, int, bloom_filter*);
 
 	// summaries
 	bloom_filter* getIdsBloomFilter(const int dbId);
