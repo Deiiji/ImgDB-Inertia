@@ -1,4 +1,5 @@
 /build
+.svn/
 */.svn/
 *.so
 *.o
