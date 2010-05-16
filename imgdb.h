@@ -287,7 +287,6 @@ class ImgDB
 {
 protected:
 	dbSpaceMapType dbSpace;
-	keywordsMapType globalKwdsMap;
 	unsigned char imgBin[16384];
 	int imgBinInited;
 	
