@@ -33,6 +33,11 @@
 #include <time.h>
 
 #include "haar.h"
+#include "bloom_filter.h"
+
+/* ImageMagick includes */
+#include <magick/api.h>
+//using namespace Magick;
 
 // Weights for the Haar coefficients.
 // Straight from the referenced paper:
@@ -329,7 +334,7 @@ public:
 	int destroydb(const int dbId);
 	bool removedb(const int dbId);
 	
-	//other public functions I forgot, I'm pretty much pasting them verbatim from the gcc errors
+	//other public methods I forgot, I'm pretty much pasting these verbatim from the gcc errors
 	int loaddbfromstream(int, std::ifstream&, srzMetaDataStruct&);
 	srzMetaDataStruct loadGlobalSerializationMetadata(std::ifstream&);
 	int addImageFromImage(int, long int, Image*);
