@@ -285,10 +285,11 @@ typedef std::map<const int, dbSpaceStruct*>::iterator  dpspaceIterator;
 //There I fixed it
 class ImgDB
 {
-protected:
+private:
 	dbSpaceMapType dbSpace;
 	unsigned char imgBin[16384];
 	int imgBinInited;
+	void initImgBin();
 	
 public:
 	ImgDB()
