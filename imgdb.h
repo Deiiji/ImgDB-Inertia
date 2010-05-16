@@ -132,46 +132,8 @@ public:
 	int destroydb(const int dbId);
 	bool removedb(const int dbId);
 
-	// keywords in images
-	bool addKeywordImg(const int dbId, const int id, const int hash);
-	bool addKeywordsImg(const int dbId, const int id, std::vector<int> hashes);
-	bool removeKeywordImg(const int dbId, const int id, const int hash);
-	bool removeAllKeywordImg(const int dbId, const int id);
-	std::vector<int> getKeywordsImg(const int dbId, const int id);
-
-	// query by keywords
-	std::vector<double> queryImgIDKeywords(const int dbId, long int id, int numres, int kwJoinType, std::vector<int> keywords);
-	std::vector<double> queryImgIDFastKeywords(const int dbId, long int id, int numres, int kwJoinType, std::vector<int> keywords);
-	std::vector<double> queryImgDataFastKeywords(const int dbId, int * sig1, int * sig2, int * sig3, double *avgl, int numres, int sketch, int kwJoinType, std::vector<int> keywords);
-	std::vector<long int> getAllImgsByKeywords(const int dbId, const int numres, int kwJoinType, std::vector<int> keywords);
-	double getKeywordsVisualDistance(const int dbId, int distanceType, std::vector<int> keywords);
-	std::vector<int> mostPopularKeywords(const int dbId, std::vector<long int> imgs, std::vector<int> excludedKwds, int count, int mode);
-
-	// keywords
-	std::vector<int> getKeywordsPopular(const int dbId, const int numres);
-
-	typedef std::map<const int, keywordStruct*> keywordsMapType;
-	typedef std::map<const int, keywordStruct*>::iterator  keywordsMapIterator;
-
-	// clustering
-	/* cluster list structure */
-	typedef struct clustersStruct_{
-		imageId id;			/* representative image id */
-		std::vector<long int> imgIds;	/* img list */
-		double diameter;		
-	} clustersStruct;
-
-	typedef std::list<clustersStruct> cluster_list;
-	typedef cluster_list::iterator cluster_listIterator;
-
-	std::vector<clustersStruct> getClusterDb(const int dbId, const int numClusters);
-	std::vector<clustersStruct> getClusterKeywords(const int dbId, const int numClusters,std::vector<int> keywords);
-
 	// summaries
 	bloom_filter* getIdsBloomFilter(const int dbId);
-
-	// util
-	keywordStruct* getKwdPostings(int hash);
 };
 
 class SigStruct;
