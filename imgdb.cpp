@@ -49,6 +49,7 @@ using namespace std;
 #include "bloom_filter.h"
 #include "imgdb.h"
 
+//this will probably break again if it ever touches windows.h, this is a reminder for me to actually remove this.
 #define max(a, b)  (((a) > (b)) ? (a) : (b))
 #define min(a, b)  (((a) > (b)) ? (b) : (a))
 
