@@ -1,6 +1,6 @@
-//      untitled.cxx
+//      test.cpp
 //      
-//      Copyright 2010 Hazim Gazo <Hazim.Gazov@gmail.com>
+//      Copyright 2010 Hazim Gazov <Hazim.Gazov@gmail.com>
 //      
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
@@ -23,8 +23,16 @@
 
 int main(int argc, char **argv)
 {
+	//alright, let's test a few things
 	ImgDB* testDB = new ImgDB();
-	std::cout << "Hey, I didn't crash! Neat!" << std::endl;
+	
+	testDB->initDbase(1);
+	testDB->addImage(1, 6, "./testimages/lena/lenna-orig.jpg");
+	
+	//everything seems to be in order... let's test the destructor.
+	delete[] *testDB;
+	
+	std::cout << "We haven't quit so far, all tests must have completed successfully!" << std::endl;
 	return 0;
 }
 
