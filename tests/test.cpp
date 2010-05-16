@@ -19,7 +19,6 @@
 
 
 #include <iostream>
-#include <vector>
 #include "imgdb.h"
 
 int main(int argc, char **argv)
@@ -31,6 +30,7 @@ int main(int argc, char **argv)
 	testDB->initDbase(99);
 	testDB->addImage(1, 6, "./testimages/lena/lenna-orig.jpg");
 	
+	//make sure all images and databases that should exist do.
 	std::cout << "Database List:" << std::endl << std::endl;
 	
 	testDB->lazyPrintDBList();
@@ -43,6 +43,11 @@ int main(int argc, char **argv)
 	
 	std::cout << std::endl;
 	
+	//let's just save the first database for now
+	testDB->savedb(1, "./test.db1");
+	
+	//ok, let's try saving all the databases now.
+	testDB->savealldbs("./test.db");
 	
 	
 	//everything seems to be in order... let's test the destructor.
