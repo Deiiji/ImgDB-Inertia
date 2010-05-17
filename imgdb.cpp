@@ -374,9 +374,6 @@ srzMetaDataStruct ImgDB::loadGlobalSerializationMetadata(std::ifstream& f) {
 	// isk version
 	f.read((char *) &(md.iskVersion), sizeof(int));
 
-	// binding language
-	f.read((char *) &(md.bindingLang), sizeof(int));
-
 	// trial or full
 	if (md.iskVersion < SRZ_V0_7_0) {
 		f.read((char *) &(md.isTrial), sizeof(int));
@@ -520,15 +517,6 @@ void ImgDB::saveGlobalSerializationMetadata(std::ofstream& f) {
 	// isk version
 	wval = SRZ_CUR_VERSION;
 	f.write((char*)&(wval), sizeof(int));
-
-	// binding language
-#ifdef ISK_SWIG_JAVA
-	wval = SRZ_LANG_JAVA;
-	f.write((char*)&(wval), sizeof(int));	
-#else	
-	wval = SRZ_LANG_PYTHON;
-	f.write((char*)&(wval), sizeof(int));	
-#endif
 
 	// platform	
 #ifdef _WINDOWS
