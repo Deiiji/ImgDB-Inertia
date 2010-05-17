@@ -114,8 +114,9 @@ void ImgDB::closeDbase() {
 #ifdef DebugLib
 		std::cout << it->first << std::endl;
 #endif
-		//resetdb(it->first);
-		//delete it->second;
+		resetdb(it->first);
+		delete it->second;
+		it->second = NULL;
 	}
 }
 
@@ -152,7 +153,7 @@ int ImgDB::addImageFromImage(const int dbId, const long int id, Image * image ) 
 	Images with a dimension smaller than ignDim are ignored
 	 */
 
-	if (image == (Image *) NULL) {
+	if (!image) {
 		cerr << "ERROR: unable to add null image" << endl;
 		return 0;
 	}
@@ -182,7 +183,7 @@ int ImgDB::addImageFromImage(const int dbId, const long int id, Image * image ) 
 
 	DestroyExceptionInfo(&exception);
 	
-	if (resize_image == (Image *) NULL) {
+	if (!resize_image) {
 		cerr << "ERROR: unable to resize image" << endl;
 		return 0;
 	}
@@ -306,7 +307,7 @@ int ImgDB::addImage(const int dbId, const long int id, char *filename) {
 	DestroyImageInfo(image_info);
 	DestroyExceptionInfo(&exception);
 
-	if (image == (Image *) NULL) {
+	if (!image) {
 		cerr << "ERROR: unable to read image" << endl;
 		return 0;
 	}

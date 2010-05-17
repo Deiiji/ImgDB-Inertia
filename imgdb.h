@@ -236,6 +236,7 @@ public:
 	~dbSpaceStruct()
 	{
 		delete imgIdsFilter;
+		imgIdsFilter = NULL;
 	}
 
 	sigMap sigs;
@@ -280,6 +281,7 @@ public:
 	~keywordStruct()
 	{
 		delete imgIdsFilter;
+		imgIdsFilter = NULL;
 	}
 } ;
 
