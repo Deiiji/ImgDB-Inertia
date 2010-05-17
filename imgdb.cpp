@@ -112,10 +112,10 @@ void ImgDB::closeDbase() {
 	/* should be called before exiting app */
 	for (dpspaceIterator it = dbSpace.begin(); it != dbSpace.end(); it++) {
 #ifdef DebugLib
-		std::cout << (*it).first << std::endl;
+		std::cout << it->first << std::endl;
 #endif
-		resetdb((*it).first);
-		delete (*it).second;
+		//resetdb(it->first);
+		//delete it->second;
 	}
 }
 

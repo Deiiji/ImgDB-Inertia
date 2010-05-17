@@ -49,7 +49,6 @@ int main(int argc, char **argv)
 	//ok, let's try saving all the databases now.
 	testDB->savealldbs("./test.db");
 	
-	
 	//everything seems to be in order... let's test the destructor.
 	
 	delete[] testDB;

@@ -264,6 +264,7 @@ public:
 #define	SRZ_PLAT_LINUX			2
 #define	SRZ_LANG_PYTHON			1
 #define	SRZ_LANG_JAVA			2
+#define	SRZ_LANG_CPP			3
 
 /* keyword postings structure */
 #define AVG_IMGS_PER_KWD 1000
@@ -295,7 +296,6 @@ private:
 	unsigned char imgBin[16384];
 	int imgBinInited;
 	void initImgBin();
-	void closeDbase();
 	
 public:
 	ImgDB()
@@ -333,6 +333,7 @@ public:
 	bool isValidDB(const int dbId);
 	int destroydb(const int dbId);
 	bool removedb(const int dbId);
+	void closeDbase();
 	
 	//other public methods I forgot, I'm pretty much pasting these verbatim from the gcc errors
 	int loaddbfromstream(int, std::ifstream&, srzMetaDataStruct&);
