@@ -110,7 +110,7 @@ void ImgDB::initDbase(const int dbId) {
 
 void ImgDB::closeDbase() {
 	/* should be called before exiting app */
-	for (dpspaceIterator it = dbSpace.begin(); it != dbSpace.end(); it++) {
+	for (dpSpaceIterator it = dbSpace.begin(); it != dbSpace.end(); it++) {
 #ifdef DebugLib
 		std::cout << it->first << std::endl;
 #endif
@@ -566,7 +566,7 @@ int ImgDB::savealldbs(char* filename) {
 	f.write((char *) &(sz), sizeof(int)); // num dbs
 	int dbId;
 
-	for (dpspaceIterator it = dbSpace.begin(); it != dbSpace.end(); it++) {
+	for (dpSpaceIterator it = dbSpace.begin(); it != dbSpace.end(); it++) {
 		dbId = (*it).first;
 		f.write((char *) &(dbId), sizeof(int)); // db id
 		res += savedbtostream( dbId, f);
@@ -988,7 +988,7 @@ bloom_filter* ImgDB::getIdsBloomFilter(const int dbId) {
 
 std::vector<int> ImgDB::getDBList() {
 	vector<int> ids;
-	for (dpspaceIterator it = dbSpace.begin(); it != dbSpace.end(); it++) {
+	for (dpSpaceIterator it = dbSpace.begin(); it != dbSpace.end(); it++) {
 		ids.push_back((*it).first);
 	}		
 	return ids;

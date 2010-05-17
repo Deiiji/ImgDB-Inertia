@@ -288,7 +288,7 @@ public:
 //These typedefs have to be down here.
 
 typedef std::map<const int, dbSpaceStruct*> dbSpaceMapType;
-typedef std::map<const int, dbSpaceStruct*>::iterator  dpspaceIterator;
+typedef std::map<const int, dbSpaceStruct*>::iterator  dpSpaceIterator;
 
 //There I fixed it
 class ImgDB
