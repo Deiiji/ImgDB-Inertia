@@ -1,1 +1,1 @@
-LD_LIBRARY_PATH=. gdb -d .. ./test
+LD_LIBRARY_PATH=. gdb ./test
