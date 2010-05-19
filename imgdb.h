@@ -297,7 +297,6 @@ private:
 	dbSpaceMapType dbSpace;
 	unsigned char imgBin[16384];
 	int imgBinInited;
-	void initImgBin();
 	
 public:
 	ImgDB()
@@ -338,6 +337,7 @@ public:
 	int destroydb(const int dbId);
 	bool removedb(const int dbId);
 	void closeDbase();
+	void initImgBin();
 	
 	//other public methods I forgot, I'm pretty much pasting these verbatim from the gcc errors
 	int loaddbfromstream(int, std::ifstream&, srzMetaDataStruct&);

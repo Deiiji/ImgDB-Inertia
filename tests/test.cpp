@@ -49,6 +49,21 @@ int main(int argc, char **argv)
 	//ok, let's try saving all the databases.
 	testDB->savealldbs("./test.db");
 	
+	//junk everything so we can test reloading
+	testDB->closeDbase();
+	testDB->loadalldbs("./test.db");
+	
+	std::cout << "Database List:" << std::endl << std::endl;
+	
+	testDB->lazyPrintDBList();
+	
+	std::cout << std::endl;
+	
+	std::cout << "Image List for database 1:" << std::endl << std::endl;
+	
+	testDB->lazyPrintImgIdList(1);
+	
+	std::cout << std::endl;
 	//everything seems to be in order... let's test the destructor.
 	
 	delete testDB;
