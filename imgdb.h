@@ -334,7 +334,6 @@ public:
 	std::vector<int> getDBList();
 	std::vector<long int> getImgIdList(const int dbId);
 	bool isValidDB(const int dbId);
-	int destroydb(const int dbId);
 	bool removedb(const int dbId);
 	void closeDbase();
 	void initImgBin();

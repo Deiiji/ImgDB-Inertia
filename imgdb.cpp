@@ -933,12 +933,6 @@ double ImgDB::calcDiff(const int dbId, long int id1, long int id2)
 	return diff;
 }
 
-int ImgDB::destroydb(const int dbId) {
-	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return 0;}
-	throw string("not yet implemented");		
-	return 1;
-}
-
 int ImgDB::resetdb(const int dbId) {	
 
 	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return 0;}
@@ -1042,6 +1036,9 @@ bool ImgDB::removedb(const int dbId) {
 	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return false;}
 
 	if (resetdb(dbId)) {
+#ifdef DebugLib
+		std::cout << "erasing db " << dbId << std::endl;
+#endif
 		dbSpace.erase(dbId);
 		return 1;	
 	}	
