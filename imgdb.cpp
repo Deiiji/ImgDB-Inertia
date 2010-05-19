@@ -115,11 +115,14 @@ void ImgDB::closeDbase() {
 #endif
 	for (dbSpaceIterator it = dbSpace.begin(); it != dbSpace.end(); it++) {
 #ifdef DebugLib
-		std::cout << it->first << std::endl;
+		std::cout << "resetting db " << (*it).first << std::endl;
 #endif
-		resetdb(it->first);
-		delete it->second;
-		it->second = NULL;
+		resetdb((*it).first);
+#ifdef DebugLib
+		std::cout << "resetting db " << (*it).first << "'s imgbin" << std::endl;
+#endif
+		//let's not touch this for now. NEEDS to be fixed later.
+		//delete it->second;
 	}
 }
 

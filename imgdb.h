@@ -307,6 +307,7 @@ public:
 	}
 	~ImgDB()
 	{
+		//closeDbase is broken, NEEDS to be fixed later. Haz
 		closeDbase();
 	}
 

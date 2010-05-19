@@ -46,12 +46,12 @@ int main(int argc, char **argv)
 	//let's just save the first database for now
 	testDB->savedb(1, "./test.db1");
 	
-	//ok, let's try saving all the databases now.
+	//ok, let's try saving all the databases.
 	testDB->savealldbs("./test.db");
 	
 	//everything seems to be in order... let's test the destructor.
 	
-	delete[] testDB;
+	delete testDB;
 	
 	std::cout << "We haven't quit so far, all tests must have completed successfully!" << std::endl;
 	return 0;
