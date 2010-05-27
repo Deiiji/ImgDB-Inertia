@@ -21,6 +21,16 @@
 #include <iostream>
 #include "imgdb.h"
 
+//Lenna image IDs
+#define LENNA_ORIG_ID 6
+
+//Test baked torso texture IDs
+#define UPPER_TEST 7
+#define UPPER_TEST_FAKE 8
+#define UPPER_TEST_GRAIN 9
+
+std::string realOrFake(float difference, float threshold);
+
 int main(int argc, char **argv)
 {
 	//alright, let's test a few things
@@ -28,7 +38,7 @@ int main(int argc, char **argv)
 	
 	testDB->initDbase(1);
 	testDB->initDbase(99);
-	testDB->addImage(1, 6, "./testimages/lena/lenna-orig.jpg");
+	testDB->addImage(1, LENNA_ORIG_ID, "./testimages/lena/lenna-orig.jpg");
 	
 	//make sure all images and databases that should exist do.
 	std::cout << "Database List:" << std::endl << std::endl;
@@ -63,12 +73,29 @@ int main(int argc, char **argv)
 	
 	testDB->lazyPrintImgIdList(1);
 	
-	std::cout << std::endl;
-	//everything seems to be in order... let's test the destructor.
+	std::cout << std::endl << std::endl;
 	
+	//let's check image similarity now, add more test images
+	testDB->addImage(1, UPPER_TEST, "./testimages/bakedlayers/upper-test.tga");
+	testDB->addImage(1, UPPER_TEST_FAKE, "./testimages/bakedlayers/upper-test-fake.tga");
+	testDB->addImage(1, UPPER_TEST_GRAIN, "./testimages/bakedlayers/upper-test-grain.tga");
+	
+	//0.016 is our "magic number" to determine if the image is the same or not. Can possibly be changed at runtime
+	std::cout << "Real -> Grainy Real: " << realOrFake(testDB->calcAvglDiff(1, UPPER_TEST, UPPER_TEST_GRAIN), 0.016) << std::endl;
+	std::cout << "Real -> Grainy Fake: " << realOrFake(testDB->calcAvglDiff(1, UPPER_TEST, UPPER_TEST_FAKE), 0.016) << std::endl;
+	std::cout << std::endl;
+	
+	//everything seems to be in order... let's test the destructor.
 	delete testDB;
 	
-	std::cout << "We haven't quit so far, all tests must have completed successfully!" << std::endl;
+	std::cout << "We haven't crashed so far, all tests must have completed successfully!" << std::endl;
 	return 0;
 }
 
+std::string realOrFake(float difference, float threshold)
+{
+	if(difference < threshold)
+		return "possibly real";
+	else
+		return "possibly fake";
+}

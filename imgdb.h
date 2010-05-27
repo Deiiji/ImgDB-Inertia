@@ -235,8 +235,8 @@ public:
 
 	~dbSpaceStruct()
 	{
-		delete imgIdsFilter;
-		imgIdsFilter = NULL;
+			delete imgIdsFilter;
+			imgIdsFilter = NULL;
 	}
 
 	sigMap sigs;
@@ -306,8 +306,7 @@ public:
 	}
 	~ImgDB()
 	{
-		//closeDbase is broken, NEEDS to be fixed later. Haz
-		
+		//delete all of our databases from memory
 		closeDbase();
 	}
 

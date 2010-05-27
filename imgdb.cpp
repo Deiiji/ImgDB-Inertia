@@ -118,12 +118,6 @@ void ImgDB::closeDbase() {
 		std::cout << "resetting db " << it->first << std::endl;
 #endif
 		removedb(it->first);
-#ifdef DebugLib
-		//std::cout << "resetting db " << (*it).first << "'s imgbin" << std::endl;
-#endif
-		//let's not touch this for now. NEEDS to be fixed later.
-		//delete it->second;
-		it->second = NULL;
 	}
 }
 
