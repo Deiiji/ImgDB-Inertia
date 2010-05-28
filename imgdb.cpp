@@ -145,7 +145,7 @@ double_vector ImgDB::getImageAvgl(const int dbId, long int id) {
 	return res;
 }
 
-int ImgDB::addImageFromImage(const int dbId, const long int id, Image * image ) {
+int ImgDB::addImageFromImage(const int dbId, const long int id, QImage image ) {
 
 	/* id is a unique image identifier
 	filename is the image location
@@ -154,7 +154,7 @@ int ImgDB::addImageFromImage(const int dbId, const long int id, Image * image ) 
 	Images with a dimension smaller than ignDim are ignored
 	 */
 
-	if (!image) {
+	if (image.width() == 0) {
 		cerr << "ERROR: unable to add null image" << endl;
 		return 0;
 	}
@@ -169,7 +169,7 @@ int ImgDB::addImageFromImage(const int dbId, const long int id, Image * image ) 
     width = image.width();
 	height = image.height();
 
-	QImage resized_image = image.scale(128,128);
+	QImage resized_image = image.scaled(128,128);
 
 	for (i = 0, cn = 0; i < 128; i++) {
 		// Get a scanline:

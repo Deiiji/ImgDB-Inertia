@@ -26,7 +26,6 @@
 #ifndef IMGDBASE_H
 #define IMGDBASE_H
 
-/* ImageMagick includes */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -36,7 +35,7 @@
 #include "bloom_filter.h"
 
 /* QT Includes */
-#include <qimage.h>
+#include <Qt/qimage.h>
 
 // Weights for the Haar coefficients.
 // Straight from the referenced paper:
@@ -338,7 +337,7 @@ public:
 	//other public methods I forgot, I'm pretty much pasting these verbatim from the gcc errors
 	int loaddbfromstream(int, std::ifstream&, srzMetaDataStruct&);
 	srzMetaDataStruct loadGlobalSerializationMetadata(std::ifstream&);
-	int addImageFromImage(int, long int, Image*);
+	int addImageFromImage(int, long int, QImage);
 	int savedbtostream(int, std::ofstream&);
 	void saveGlobalSerializationMetadata(std::ofstream&);
 	double_vector queryImgDataFiltered(int, Idx*, Idx*, Idx*, double*, int, int, bloom_filter*);

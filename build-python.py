@@ -1,8 +1,16 @@
 #!/usr/bin/env python
 
+#A bad, hacked-up distutils compilation script :D
+
 #############################[ Parameters you should change if install failed ]#########################################
 # python_dir should point to the directory where Python header files may be found.. (Inside this dir you should have a Python.h)
 python_dir="/usr/include/python"
+# qtdir should point to the directory where QT is installed. (Inside this dir you should have a lib and include dir)
+qtdir=["/usr/share/qt4/"]      # ["/usr/qt/3/"] if you have a Gentoo system
+
+# QT library to use. If qt-mt is not found, you may need to change it to "qt"
+qtlibraries = ["qt-mt",
+               ]
 #############################[ End of parameters that can be changed ]##################################################
 
 try:
@@ -19,15 +27,11 @@ except:
     sys.exit(1)
 
 ############## Init some vars
-if 0: # java build
-  extra_compile_args=["-O3","-DLinuxBuild","-DISK_SWIG_JAVA"]
-  extra_link_args=['/usr/lib/jvm/java-6-sun-1.6.0.03/jre/lib/amd64/server/libjvm.so']
-  include_dirs = ['/usr/lib/jvm/java-6-sun/include/','/usr/lib/jvm/java-6-sun/include/linux/']
-else: # python build
-  extra_compile_args=["-O3","-DLinuxBuild"]
-  #extra_link_args=['-static'] # won't compile on AMD_64 with "static" 
-  extra_link_args=[]
-  include_dirs = []
+# python build
+extra_compile_args=["-O3","-DLinuxBuild"]
+#extra_link_args=['-static'] # won't compile on AMD_64 with "static" 
+extra_link_args=[]
+include_dirs = []
 library_dirs = []
 libraries = []
 
@@ -44,45 +48,22 @@ if not os.path.exists(python_dir+"Python.h"):
 include_dirs.append(python_dir)
 print "Checked."
 
-hasIMagick=0
-print "#################################### Check ImageMagick"
-try:
-    fnd=0
-    pathvar=os.environ["PATH"]
-    for pv in split(pathvar,':'):
-        if os.path.exists(pv+'/Magick++-config') or os.path.exists(pv+'Magick++-config'):
-            fnd=1
-    if fnd:
-        IMagCFlag=os.popen("Magick++-config --cxxflags --cppflags").read()
-        if find(IMagCFlag,"-I") != -1:
-            IMagCFlag=replace(IMagCFlag,"\n"," ")
-            IMagCFlag=split(IMagCFlag,' ')
-            IMagCLib=os.popen("Magick++-config --ldflags --libs").read()
-            IMagCLib=replace(IMagCLib,"\n"," ")
-            IMagCLib=split(IMagCLib,' ')
-            hasIMagick=1
-    else:
-        print "--- WARNING ---\nUnable to find Magick++-config. Are you sure you have ImageMagick and it's development files installed correctly ?\nIgnore this warning if QT development files were previously detected."
-except:
-    traceback.print_exc()
-    print "Please report the above traceback to \"nieder@mail.ru\""
-if hasIMagick:
-    extra_compile_args=extra_compile_args+["-DImMagick"]
-    libraries=[]                        # remove all other libraries and only use ImageMAgick
-    for cf in IMagCFlag:
-        cf=strip(cf)
-        if not cf: continue
-        extra_compile_args.append(cf)
-    for cf in IMagCLib:
-        cf=strip(cf)
-        if not cf: continue
-        extra_link_args.append(cf)
-    print "Found the following arguments:"
-    print "extra_compile_args",extra_compile_args
-    print "extra_link_args",extra_link_args
-else:
-    print "ImageMagick library and development files not found."
+print "#################################### Check QT"
 
+include_dirs.append("/usr/include/qt4")
+library_dirs.append("/usr/lib/qt4")
+library_dirs.append("/usr/lib/")
+gqtdir="/usr/lib/qt4"
+
+if gqtdir:                              # more checks
+    if gqtdir[-1] != os.sep: gqtdir=gqtdir+os.sep
+    if gqtdir not in qtdir: qtdir.append(gqtdir)
+
+for qdir in qtdir:
+    include_dirs.append(qdir+"include")
+    library_dirs.append(qdir+"lib")
+
+libraries = qtlibraries
 print "Checked."
 
 class fallible_build_ext(build_ext):
