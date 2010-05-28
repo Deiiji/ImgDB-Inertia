@@ -35,9 +35,8 @@
 #include "haar.h"
 #include "bloom_filter.h"
 
-/* ImageMagick includes */
-#include <magick/api.h>
-//using namespace Magick;
+/* QT Includes */
+#include <qimage.h>
 
 // Weights for the Haar coefficients.
 // Straight from the referenced paper:
