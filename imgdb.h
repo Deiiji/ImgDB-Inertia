@@ -329,7 +329,6 @@ public:
 	double calcAvglDiff(const int dbId, long int id1, long int id2);
 	double calcDiff(const int dbId, long int id1, long int id2);
 	double_vector getImageAvgl(const int dbId, long int id1);
-	int addImageBlob(const int dbId, const long int id, const void *blob, const long length);
 	std::vector<int> getDBList();
 	std::vector<long int> getImgIdList(const int dbId);
 	bool isValidDB(const int dbId);

@@ -297,22 +297,12 @@ int ImgDB::addImage(const int dbId, const long int id, char *filename) {
 		return 0;		
 	}
 
-	ExceptionInfo exception;
-	GetExceptionInfo(&exception);
+	QImage image	= QImage();
+	QString format	= QImageIO::imageFormat(filename);
 
-	ImageInfo *image_info;
-	image_info = CloneImageInfo((ImageInfo *) NULL);
-	(void) strcpy(image_info->filename, filename);
-	Image *image = ReadImage(image_info, &exception);
-	if (exception.severity != UndefinedException) CatchException(&exception);
-	DestroyImageInfo(image_info);
-	DestroyExceptionInfo(&exception);
-
-	if (!image) {
-		cerr << "ERROR: unable to read image" << endl;
-		return 0;
-	}
-	
+	if (!image.load(filename))
+		return -1;
+			
 	return addImageFromImage(dbId, id, image);
 }
 
