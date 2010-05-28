@@ -319,7 +319,7 @@ public:
 	int loadalldbs(char* filename);
 	int removeID(const int dbId, long int id);
 	int resetdb(const int dbId);
-	void initDbase(const int dbId) ;
+	void initDbase(const int dbId);
 	long int getImgCount(const int dbId);
 	bool isImageOnDB(const int dbId, long int id);
 	int getImageHeight(const int dbId, long int id);

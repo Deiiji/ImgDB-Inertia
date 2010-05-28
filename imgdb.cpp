@@ -163,7 +163,7 @@ int ImgDB::addImageFromImage(const int dbId, const long int id, QImage image ) {
 	static Unit cdata1[16384];
 	static Unit cdata2[16384];
 	static Unit cdata3[16384];
-	int i;
+	int i, cn;
 	int width, height;
 
     width = image.width();
@@ -231,10 +231,10 @@ int ImgDB::addImageFromImage(const int dbId, const long int id, QImage image ) {
 		x = (x - t) ^ -t;
 		dbSpace[dbId]->imgbuckets[2][t][x].push_back(id);
 
-		//should not fail
+		should not fail //good god, what the hell is this, and why doesn't it crash?
 
 #else //FAST_POW_GEERT
-		long_array3 imgbuckets = dbSpace[dbId]->imgbuckets;
+		//long_array3 imgbuckets = dbSpace[dbId]->imgbuckets;
 		if (nsig->sig1[i]>0) dbSpace[dbId]->imgbuckets[0][0][nsig->sig1[i]].push_back(id);
 		if (nsig->sig1[i]<0) dbSpace[dbId]->imgbuckets[0][1][-nsig->sig1[i]].push_back(id);
 

@@ -9,7 +9,7 @@ python_dir="/usr/include/python"
 qtdir=["/usr/share/qt4/"]      # ["/usr/qt/3/"] if you have a Gentoo system
 
 # QT library to use. If qt-mt is not found, you may need to change it to "qt"
-qtlibraries = ["qt-mt",
+qtlibraries = ["QtCore",
                ]
 #############################[ End of parameters that can be changed ]##################################################
 
