@@ -2,8 +2,9 @@
 /bin
 .svn/
 */.svn/
-*.so
+*.so*
+*.dll*
 *.o
 *.db*
-/tests/test
+imgdb-test
 Makefile

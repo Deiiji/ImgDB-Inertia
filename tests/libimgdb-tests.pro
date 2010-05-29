@@ -2,10 +2,12 @@ TEMPLATE = app
 VERSION = 0.0.2
 CONFIG += qt debug
 
+OBJECTS_DIR = ../build/
+
 TARGET = ../bin/imgdb-test
 
-DEPENDPATH += ..
-INCLUDEPATH += ..
+DEPENDPATH += ../ImgDB
+INCLUDEPATH += ../ImgDB
 
 SOURCES += test.cpp
 

@@ -2,7 +2,11 @@ TEMPLATE = lib
 VERSION = 0.0.2
 CONFIG += qt dll debug
 
-TARGET = bin/lib/imgdb-dbg
+OBJECTS_DIR = ../build/
+
+TARGET = ../bin/lib/imgdb-dbg
+
+SUBDIRS += tests
 
 SOURCES += bloom_filter.cpp \
 	haar.cpp \ 
