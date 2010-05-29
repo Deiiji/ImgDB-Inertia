@@ -26,7 +26,6 @@
 #ifndef IMGDBASE_H
 #define IMGDBASE_H
 
-/* ImageMagick includes */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,9 +34,8 @@
 #include "haar.h"
 #include "bloom_filter.h"
 
-/* ImageMagick includes */
-#include <magick/api.h>
-//using namespace Magick;
+/* QT Includes */
+#include <Qt/qimage.h>
 
 // Weights for the Haar coefficients.
 // Straight from the referenced paper:
@@ -321,7 +319,7 @@ public:
 	int loadalldbs(char* filename);
 	int removeID(const int dbId, long int id);
 	int resetdb(const int dbId);
-	void initDbase(const int dbId) ;
+	void initDbase(const int dbId);
 	long int getImgCount(const int dbId);
 	bool isImageOnDB(const int dbId, long int id);
 	int getImageHeight(const int dbId, long int id);
@@ -329,7 +327,6 @@ public:
 	double calcAvglDiff(const int dbId, long int id1, long int id2);
 	double calcDiff(const int dbId, long int id1, long int id2);
 	double_vector getImageAvgl(const int dbId, long int id1);
-	int addImageBlob(const int dbId, const long int id, const void *blob, const long length);
 	std::vector<int> getDBList();
 	std::vector<long int> getImgIdList(const int dbId);
 	bool isValidDB(const int dbId);
@@ -340,7 +337,7 @@ public:
 	//other public methods I forgot, I'm pretty much pasting these verbatim from the gcc errors
 	int loaddbfromstream(int, std::ifstream&, srzMetaDataStruct&);
 	srzMetaDataStruct loadGlobalSerializationMetadata(std::ifstream&);
-	int addImageFromImage(int, long int, Image*);
+	int addImageFromImage(int, long int, QImage);
 	int savedbtostream(int, std::ofstream&);
 	void saveGlobalSerializationMetadata(std::ofstream&);
 	double_vector queryImgDataFiltered(int, Idx*, Idx*, Idx*, double*, int, int, bloom_filter*);

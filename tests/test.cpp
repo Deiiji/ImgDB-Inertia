@@ -19,6 +19,7 @@
 
 
 #include <iostream>
+#include "Qt/qimage.h"
 #include "imgdb.h"
 
 //Lenna image IDs

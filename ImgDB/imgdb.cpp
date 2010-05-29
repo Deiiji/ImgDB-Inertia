@@ -145,7 +145,7 @@ double_vector ImgDB::getImageAvgl(const int dbId, long int id) {
 	return res;
 }
 
-int ImgDB::addImageFromImage(const int dbId, const long int id, Image * image ) {
+int ImgDB::addImageFromImage(const int dbId, const long int id, QImage image ) {
 
 	/* id is a unique image identifier
 	filename is the image location
@@ -154,7 +154,7 @@ int ImgDB::addImageFromImage(const int dbId, const long int id, Image * image ) 
 	Images with a dimension smaller than ignDim are ignored
 	 */
 
-	if (!image) {
+	if (image.width() == 0) {
 		cerr << "ERROR: unable to add null image" << endl;
 		return 0;
 	}
@@ -163,53 +163,28 @@ int ImgDB::addImageFromImage(const int dbId, const long int id, Image * image ) 
 	static Unit cdata1[16384];
 	static Unit cdata2[16384];
 	static Unit cdata3[16384];
-	int i;
+	int i, cn;
 	int width, height;
 
-	ExceptionInfo exception;
+    width = image.width();
+	height = image.height();
 
-	Image *resize_image;
+	QImage resized_image = image.scaled(128,128);
 
-	/*
-	Initialize the image info structure and read an image.
-	 */
-	GetExceptionInfo(&exception);
-	
-	width = image->columns;
-	height = image->rows;
+	for (i = 0, cn = 0; i < 128; i++) {
+		// Get a scanline:
+		QRgb *line = (QRgb *) resized_image.scanLine(i);
 
-	resize_image = SampleImage(image, 128, 128, &exception);
+		for (int j = 0; j < 128; j++) {
+			QRgb pixel = line[j];
 
-	DestroyImage(image);
-
-	DestroyExceptionInfo(&exception);
-	
-	if (!resize_image) {
-		cerr << "ERROR: unable to resize image" << endl;
-		return 0;
+			cdata1[cn] = qRed	(pixel);
+			cdata2[cn] = qGreen(pixel);
+			cdata3[cn] = qBlue (pixel);
+			cn++;
+		}
 	}
-
-	// store color value for basic channels
-	unsigned char rchan[16384];
-	unsigned char gchan[16384];
-	unsigned char bchan[16384];
-
-	GetExceptionInfo(&exception);
-
-	const PixelPacket *pixel_cache = AcquireImagePixels(resize_image, 0, 0, 128, 128, &exception);
-
-	for (int idx = 0; idx < 16384; idx++) {
-		rchan[idx] = pixel_cache->red;
-		gchan[idx] = pixel_cache->green;
-		bchan[idx] = pixel_cache->blue;
-		pixel_cache++;
-	}
-
-	DestroyImage(resize_image);
-	
-	transformChar(rchan, gchan, bchan, cdata1, cdata2, cdata3);
-
-	DestroyExceptionInfo(&exception);
+	transform(cdata1,cdata2,cdata3);
 
 	SigStruct *nsig = new SigStruct();
 	nsig->id = id;
@@ -256,7 +231,7 @@ int ImgDB::addImageFromImage(const int dbId, const long int id, Image * image ) 
 		x = (x - t) ^ -t;
 		dbSpace[dbId]->imgbuckets[2][t][x].push_back(id);
 
-		should not fail
+		should not fail //good god, what the hell is this, and why doesn't it crash?
 
 #else //FAST_POW_GEERT
 		//long_array3 imgbuckets = dbSpace[dbId]->imgbuckets;
@@ -278,41 +253,20 @@ int ImgDB::addImageFromImage(const int dbId, const long int id, Image * image ) 
 
 }
 
-int ImgDB::addImageBlob(const int dbId, const long int id, const void *blob, const long length) {
-	ExceptionInfo exception;
-	ImageInfo *image_info;
-
-	image_info = CloneImageInfo((ImageInfo *) NULL);
-
-	Image *image = BlobToImage(image_info, blob, length, &exception);
-	if (exception.severity != UndefinedException) CatchException(&exception);
-		
-	DestroyImageInfo(image_info);
-	return addImageFromImage(dbId, id, image);
-}
-
 int ImgDB::addImage(const int dbId, const long int id, char *filename) {
 
 	if (dbSpace[dbId]->sigs.count(id)) { // image already in db
 		return 0;		
 	}
 
-	ExceptionInfo exception;
-	GetExceptionInfo(&exception);
+	QImage image = QImage();
 
-	ImageInfo *image_info;
-	image_info = CloneImageInfo((ImageInfo *) NULL);
-	(void) strcpy(image_info->filename, filename);
-	Image *image = ReadImage(image_info, &exception);
-	if (exception.severity != UndefinedException) CatchException(&exception);
-	DestroyImageInfo(image_info);
-	DestroyExceptionInfo(&exception);
-
-	if (!image) {
+	if (!image.load(filename))
+	{
 		cerr << "ERROR: unable to read image" << endl;
 		return 0;
 	}
-	
+			
 	return addImageFromImage(dbId, id, image);
 }
 
