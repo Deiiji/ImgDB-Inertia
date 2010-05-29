@@ -119,6 +119,8 @@ void ImgDB::closeDbase() {
 #endif
 		removedb(it->first);
 	}
+	
+	imgBinInited = 0;
 }
 
 int ImgDB::getImageWidth(const int dbId, long int id) {
@@ -271,6 +273,10 @@ int ImgDB::addImage(const int dbId, const long int id, char *filename) {
 }
 
 int ImgDB::loaddbfromstream(const int dbId, std::ifstream& f, srzMetaDataStruct& md) {
+
+#ifdef DebugLib
+	cout << "loading database " << dbId << endl;
+#endif
 
 	if (!dbSpace.count(dbId))  { // haven't been inited yet
 		initDbase(dbId);

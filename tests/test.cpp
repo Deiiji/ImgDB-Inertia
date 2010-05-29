@@ -64,6 +64,7 @@ int main(int argc, char **argv)
 	
 	//junk everything so we can test reloading
 	testDB->closeDbase();
+	
 	testDB->loadalldbs("./test.db");
 	
 	std::cout << "Database List:" << std::endl << std::endl;
