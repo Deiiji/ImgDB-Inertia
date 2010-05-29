@@ -19,6 +19,7 @@
 
 
 #include <iostream>
+#include <sstream>
 #include "Qt/qimage.h"
 #include "imgdb.h"
 
@@ -32,8 +33,22 @@
 #define UPPER_TEST_FAKE 10
 #define UPPER_TEST_GRAIN 11
 
+//Solid color test IDs
+#define WHITE_TEST_ID 12
+#define BLACK_TEST_ID 13
+
 std::string realOrFake(float difference, float threshold);
 void quickCompare(ImgDB* ourDB, const int dbId, const int firstImage, const int secondImage, float threshold, const std::string message);
+
+template <class T>
+bool from_string(T& t, 
+                 const std::string& s, 
+                 std::ios_base& (*f)(std::ios_base&))
+{
+  std::istringstream iss(s);
+  return !(iss >> f >> t).fail();
+}
+
 
 int main(int argc, char **argv)
 {
@@ -92,6 +107,9 @@ int main(int argc, char **argv)
 	testDB->addImage(1, LENNA_ORIG_GRAINY_ID, "./testimages/lena/lenna-orig-grainy.jpg");
 	testDB->addImage(1, LENNA_NEW_VISIT_ID, "./testimages/lena/lena-visit1.jpg");
 	
+	testDB->addImage(1, WHITE_TEST_ID, "./testimages/solid/white.png");
+	testDB->addImage(1, BLACK_TEST_ID, "./testimages/solid/black.png");
+	
 	//0.016 is our "magic number" to determine if the image is the same or not. Can possibly be changed at runtime
 	
 	/*
@@ -104,7 +122,12 @@ int main(int argc, char **argv)
 	std::cout << "Lenna Comparisons" << std::endl << "============" << std::endl;
 	quickCompare(testDB, 1, LENNA_ORIG_ID, LENNA_ORIG_GRAINY_ID, 0.016, "Original -> Grainy Original");
 	quickCompare(testDB, 1, LENNA_ORIG_ID, LENNA_NEW_VISIT_ID, 0.016, "Original -> New Image");
-	std::cout << std::endl;
+	std::cout << std::endl << std::endl;
+	
+	//according to this test there's a margin of error of at least 0.40%...
+	std::cout << "Solid Color Comparisons" << std::endl << "============" << std::endl;
+	quickCompare(testDB, 1, WHITE_TEST_ID, BLACK_TEST_ID, 0.016, "Solid White -> Solid Black");
+	std::cout << std::endl << std::endl;
 	
 	//everything seems to be in order... let's test the destructor.
 	delete testDB;
@@ -124,5 +147,9 @@ std::string realOrFake(float difference, float threshold)
 void quickCompare(ImgDB* ourDB, const int dbId, const int firstImage, const int secondImage, float threshold, const std::string message)
 {
 	float imageDifference = ourDB->calcAvglDiff(dbId, firstImage, secondImage);
-	std::cout << message << ": " << realOrFake(imageDifference, 0.016) << " (" << imageDifference << ")" << std::endl;
+	
+	char prettyDifference[7]; //the percentage will be 6 chars max, plus null
+	sprintf(prettyDifference, "%0.2f", imageDifference * 100);
+	
+	std::cout << message << ": " << realOrFake(imageDifference, threshold) << " (" << prettyDifference << "% different)" << std::endl;
 }
