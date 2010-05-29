@@ -113,11 +113,17 @@ void ImgDB::closeDbase() {
 #ifdef DebugLib
 	std::cout << "clearing database" << std::endl;
 #endif
-	for (dbSpaceIterator it = dbSpace.begin(); it != dbSpace.end(); it++) {
+
+	int i;
+	std::vector<int> dbListNums = getDBList();
+	int vectorSize = dbListNums.size();
+
+	for (i=0; i < vectorSize; ++i) {
+		int dbId = dbListNums[i];
 #ifdef DebugLib
-		std::cout << "resetting db " << it->first << std::endl;
+		std::cout << "resetting db " << dbId << std::endl;
 #endif
-		removedb(it->first);
+		removedb(dbId);
 	}
 	
 	imgBinInited = 0;
