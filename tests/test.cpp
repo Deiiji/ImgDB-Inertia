@@ -24,11 +24,13 @@
 
 //Lenna image IDs
 #define LENNA_ORIG_ID 6
+#define LENNA_ORIG_GRAINY_ID 7
+#define LENNA_NEW_VISIT_ID 8
 
 //Test baked torso texture IDs
-#define UPPER_TEST 7
-#define UPPER_TEST_FAKE 8
-#define UPPER_TEST_GRAIN 9
+#define UPPER_TEST 9
+#define UPPER_TEST_FAKE 10
+#define UPPER_TEST_GRAIN 11
 
 std::string realOrFake(float difference, float threshold);
 
@@ -77,13 +79,29 @@ int main(int argc, char **argv)
 	std::cout << std::endl << std::endl;
 	
 	//let's check image similarity now, add more test images
+	
+	//targa-based tests are commented out until I get targa files working with QImage
+	/*
 	testDB->addImage(1, UPPER_TEST, "./testimages/bakedlayers/upper-test.tga");
 	testDB->addImage(1, UPPER_TEST_FAKE, "./testimages/bakedlayers/upper-test-fake.tga");
 	testDB->addImage(1, UPPER_TEST_GRAIN, "./testimages/bakedlayers/upper-test-grain.tga");
+	*/
+	
+	testDB->addImage(1, LENNA_ORIG_GRAINY_ID, "./testimages/lena/lenna-orig-grainy.jpg");
+	testDB->addImage(1, LENNA_NEW_VISIT_ID, "./testimages/lena/lena-visit1.jpg");
 	
 	//0.016 is our "magic number" to determine if the image is the same or not. Can possibly be changed at runtime
+	
+	/*
+	std::cout << "Baked Texture Comparisons" << std::endl << "============" << std::endl;
 	std::cout << "Real -> Grainy Real: " << realOrFake(testDB->calcAvglDiff(1, UPPER_TEST, UPPER_TEST_GRAIN), 0.016) << std::endl;
 	std::cout << "Real -> Grainy Fake: " << realOrFake(testDB->calcAvglDiff(1, UPPER_TEST, UPPER_TEST_FAKE), 0.016) << std::endl;
+	std::cout << std::endl;
+	*/
+	
+	std::cout << "Lenna Comparisons" << std::endl << "============" << std::endl;
+	std::cout << "Original -> Grainy Original: " << realOrFake(testDB->calcAvglDiff(1, LENNA_ORIG_ID, LENNA_ORIG_GRAINY_ID), 0.016) << std::endl;
+	std::cout << "Original -> New Image: " << realOrFake(testDB->calcAvglDiff(1, LENNA_ORIG_ID, LENNA_NEW_VISIT_ID), 0.016) << std::endl;
 	std::cout << std::endl;
 	
 	//everything seems to be in order... let's test the destructor.
@@ -96,7 +114,7 @@ int main(int argc, char **argv)
 std::string realOrFake(float difference, float threshold)
 {
 	if(difference < threshold)
-		return "possibly real";
+		return "possibly the same image";
 	else
-		return "possibly fake";
+		return "possibly different images";
 }

@@ -433,7 +433,7 @@ int ImgDB::savedbtostream(const int dbId, std::ofstream& f) {
 	int sz;
 	long int id;
 
-	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return 0;}
+	if (!validate_dbid(dbId)) { cerr << __func__ << " ERROR: database space not found (" << dbId << ")" << endl; return 0;}
 
 	// save buckets
 	for (int c = 0; c < 3; c++) {
@@ -647,7 +647,7 @@ std::vector<double> ImgDB::queryImgDataFast(const int dbId, Idx * sig1, Idx * si
 
 	vector<double> V;
 
-	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return V;}
+	if (!validate_dbid(dbId)) { cerr << __func__ << " ERROR: database space not found (" << dbId << ")" << endl; return V;}
 
 	for (sigIterator sit = dbSpace[dbId]->sigs.begin(); sit != dbSpace[dbId]->sigs.end(); sit++) {
 		(*sit).second->score = 0;
@@ -706,7 +706,7 @@ long_list ImgDB::queryImgDataForThres(const int dbId, sigMap * tsigs,
 	long_list res;
 	Idx *sig[3] = { sig1, sig2, sig3 };
 
-	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return res;}
+	if (!validate_dbid(dbId)) { cerr << __func__ << " ERROR: database space not found (" << dbId << ")" << endl; return res;}
 
 	for (sigIterator sit = (*tsigs).begin(); sit != (*tsigs).end(); sit++) {
 		(*sit).second->score = 0;
@@ -774,7 +774,7 @@ std::vector<double> ImgDB::queryImgID(const int dbId, long int id, int numres) {
 
 	if (id == -1) { // query random images
 		vector<double> Vres;
-		if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return Vres;}
+		if (!validate_dbid(dbId)) { cerr << __func__ << " ERROR: database space not found (" << dbId << ")" << endl; return Vres;}
 		long int sz = dbSpace[dbId]->sigs.size();
 		int_hashset includedIds;
 		sigIterator it = dbSpace[dbId]->sigs.begin();
@@ -858,7 +858,7 @@ double ImgDB::calcDiff(const int dbId, long int id1, long int id2)
 	/* use it to tell the content-based difference between two images
 	 */
 
-	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return 0;}
+	if (!validate_dbid(dbId)) { cerr << __func__ << " ERROR: database space not found (" << dbId << ")" << endl; return 0;}
 
 	if (!isImageOnDB(dbId,id1) ||
 			!isImageOnDB(dbId,id2)) {
@@ -883,7 +883,7 @@ double ImgDB::calcDiff(const int dbId, long int id1, long int id2)
 
 int ImgDB::resetdb(const int dbId) {	
 
-	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return 0;}
+	if (!validate_dbid(dbId)) { cerr << __func__ << " ERROR: database space not found (" << dbId << ")" << endl; return 0;}
 	//TODO delete kwdstructs from globalKwdsMap
 	//TODO there is a memleak here:
 	// ==19336==    at 0x4C25F6C: operator new(unsigned long) (vg_replace_malloc.c:230)
@@ -926,12 +926,12 @@ int ImgDB::resetdb(const int dbId) {
 }
 
 long int ImgDB::getImgCount(const int dbId) {
-	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return 0;}	
+	if (!validate_dbid(dbId)) { cerr << __func__ << " ERROR: database space not found (" << dbId << ")" << endl; return 0;}	
 	return dbSpace[dbId]->sigs.size();
 }
 
 bloom_filter* ImgDB::getIdsBloomFilter(const int dbId) {
-	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return 0;}
+	if (!validate_dbid(dbId)) { cerr << __func__ << " ERROR: database space not found (" << dbId << ")" << endl; return 0;}
 	return dbSpace[dbId]->imgIdsFilter;
 }
 
@@ -981,7 +981,7 @@ bool ImgDB::isValidDB(const int dbId) {
 }
 
 bool ImgDB::removedb(const int dbId) {
-	if (!validate_dbid(dbId)) { cerr << "ERROR: database space not found (" << dbId << ")" << endl; return false;}
+	if (!validate_dbid(dbId)) { cerr << __func__ << " ERROR: database space not found (" << dbId << ")" << endl; return false;}
 
 	if (resetdb(dbId)) {
 #ifdef DebugLib

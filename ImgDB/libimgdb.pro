@@ -6,6 +6,8 @@ OBJECTS_DIR = ../build/
 
 TARGET = ../bin/lib/imgdb-dbg
 
+DEFINES += DebugLib
+
 SUBDIRS += tests
 
 SOURCES += bloom_filter.cpp \
