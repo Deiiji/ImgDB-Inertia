@@ -33,6 +33,7 @@
 #define UPPER_TEST_GRAIN 11
 
 std::string realOrFake(float difference, float threshold);
+void quickCompare(ImgDB* ourDB, const int dbId, const int firstImage, const int secondImage, float threshold, const std::string message);
 
 int main(int argc, char **argv)
 {
@@ -101,8 +102,8 @@ int main(int argc, char **argv)
 	*/
 	
 	std::cout << "Lenna Comparisons" << std::endl << "============" << std::endl;
-	std::cout << "Original -> Grainy Original: " << realOrFake(testDB->calcAvglDiff(1, LENNA_ORIG_ID, LENNA_ORIG_GRAINY_ID), 0.016) << std::endl;
-	std::cout << "Original -> New Image: " << realOrFake(testDB->calcAvglDiff(1, LENNA_ORIG_ID, LENNA_NEW_VISIT_ID), 0.016) << std::endl;
+	quickCompare(testDB, 1, LENNA_ORIG_ID, LENNA_ORIG_GRAINY_ID, 0.016, "Original -> Grainy Original");
+	quickCompare(testDB, 1, LENNA_ORIG_ID, LENNA_NEW_VISIT_ID, 0.016, "Original -> New Image");
 	std::cout << std::endl;
 	
 	//everything seems to be in order... let's test the destructor.
@@ -118,4 +119,10 @@ std::string realOrFake(float difference, float threshold)
 		return "possibly the same image";
 	else
 		return "possibly different images";
+}
+
+void quickCompare(ImgDB* ourDB, const int dbId, const int firstImage, const int secondImage, float threshold, const std::string message)
+{
+	float imageDifference = ourDB->calcAvglDiff(dbId, firstImage, secondImage);
+	std::cout << message << ": " << realOrFake(imageDifference, 0.016) << " (" << imageDifference << ")" << std::endl;
 }
