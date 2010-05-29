@@ -96,36 +96,36 @@ int main(int argc, char **argv)
 	std::cout << std::endl << std::endl;
 	
 	//let's check image similarity now, add more test images
-	
-	//targa-based tests are commented out until I get targa files working with QImage
-	/*
-	testDB->addImage(1, UPPER_TEST, "./testimages/bakedlayers/upper-test.tga");
-	testDB->addImage(1, UPPER_TEST_FAKE, "./testimages/bakedlayers/upper-test-fake.tga");
-	testDB->addImage(1, UPPER_TEST_GRAIN, "./testimages/bakedlayers/upper-test-grain.tga");
-	*/
-	
-	testDB->addImage(1, LENNA_ORIG_GRAINY_ID, "./testimages/lena/lenna-orig-grainy.jpg");
-	testDB->addImage(1, LENNA_NEW_VISIT_ID, "./testimages/lena/lena-visit1.jpg");
-	
-	testDB->addImage(1, WHITE_TEST_ID, "./testimages/solid/white.png");
-	testDB->addImage(1, BLACK_TEST_ID, "./testimages/solid/black.png");
-	
 	//0.016 is our "magic number" to determine if the image is the same or not. Can possibly be changed at runtime
+	//targa-based tests are commented out until I get targa files working with QImage
 	
 	/*
 	std::cout << "Baked Texture Comparisons" << std::endl << "============" << std::endl;
+	
+	testDB->addImage(1, UPPER_TEST, "./testimages/bakedlayers/upper-test.tga");
+	testDB->addImage(1, UPPER_TEST_FAKE, "./testimages/bakedlayers/upper-test-fake.tga");
+	testDB->addImage(1, UPPER_TEST_GRAIN, "./testimages/bakedlayers/upper-test-grain.tga");
+	
 	std::cout << "Real -> Grainy Real: " << realOrFake(testDB->calcAvglDiff(1, UPPER_TEST, UPPER_TEST_GRAIN), 0.016) << std::endl;
 	std::cout << "Real -> Grainy Fake: " << realOrFake(testDB->calcAvglDiff(1, UPPER_TEST, UPPER_TEST_FAKE), 0.016) << std::endl;
 	std::cout << std::endl;
 	*/
 	
 	std::cout << "Lenna Comparisons" << std::endl << "============" << std::endl;
+	
+	testDB->addImage(1, LENNA_ORIG_GRAINY_ID, "./testimages/lena/lenna-orig-grainy.jpg");
+	testDB->addImage(1, LENNA_NEW_VISIT_ID, "./testimages/lena/lena-visit1.jpg");
+	
 	quickCompare(testDB, 1, LENNA_ORIG_ID, LENNA_ORIG_GRAINY_ID, 0.016, "Original -> Grainy Original");
 	quickCompare(testDB, 1, LENNA_ORIG_ID, LENNA_NEW_VISIT_ID, 0.016, "Original -> New Image");
 	std::cout << std::endl << std::endl;
 	
 	//according to this test there's a margin of error of at least 0.40%...
 	std::cout << "Solid Color Comparisons" << std::endl << "============" << std::endl;
+	
+	testDB->addImage(1, WHITE_TEST_ID, "./testimages/solid/white.png");
+	testDB->addImage(1, BLACK_TEST_ID, "./testimages/solid/black.png");
+	
 	quickCompare(testDB, 1, WHITE_TEST_ID, BLACK_TEST_ID, 0.016, "Solid White -> Solid Black");
 	std::cout << std::endl << std::endl;
 	
