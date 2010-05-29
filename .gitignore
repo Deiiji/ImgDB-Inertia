@@ -1,7 +1,9 @@
 /build
+/bin
 .svn/
 */.svn/
 *.so
 *.o
 *.db*
 /tests/test
+Makefile
