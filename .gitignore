@@ -1,5 +1,6 @@
 /build
 /bin
+/staticlibs
 .svn/
 */.svn/
 *.so*

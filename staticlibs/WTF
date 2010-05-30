@@ -1,0 +1,3 @@
+This file contains the static libraries provided by Linden Labs for linking agains the Second Life client.
+
+Most people won't want to use these, but if you want to test with htem they can be put here.

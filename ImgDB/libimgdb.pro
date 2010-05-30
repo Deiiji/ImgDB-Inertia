@@ -23,3 +23,10 @@ unix || mac {
 }
 
 unix:LIBS += -ljpeg -lpng -lz
+
+#Check to see if LL provided qt libs are present (usually won't be)
+#header files need to be installed
+
+unix && exists( ../staticlibs/libllqtwebkit.a ) {
+	LIBS += -L../staticlibs
+}
