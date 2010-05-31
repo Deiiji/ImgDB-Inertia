@@ -127,6 +127,7 @@ int main(int argc, char **argv)
 	testDB->addImage(1, BLACK_TEST_ID, "./testimages/solid/black.png");
 	
 	quickCompare(testDB, 1, WHITE_TEST_ID, BLACK_TEST_ID, 0.016, "Solid White -> Solid Black");
+        quickCompare(testDB, 1, WHITE_TEST_ID, WHITE_TEST_ID, 0.016, "Solid White -> Solid White");
 	std::cout << std::endl << std::endl;
 	
 	//everything seems to be in order... let's test the destructor.

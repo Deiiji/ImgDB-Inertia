@@ -18,6 +18,6 @@ include_directories (
 	${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
 	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR}
 	)
-	
+
 add_subdirectory( ImgDB )
 add_subdirectory( tests )
