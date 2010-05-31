@@ -310,7 +310,7 @@ int ImgDB::loaddbfromstream(const int dbId, std::ifstream& f, srzMetaDataStruct&
 	if (md.iskVersion < SRZ_V0_6_0) {
 		cout << "INFO migrating database from a version prior to 0.6" << endl;
 		// read sigs
-		for (int k = 0; k < szt; k++) {
+		for (unsigned int k = 0; k < szt; k++) {
 			sigStructV06* nsig06 = new sigStructV06();
 			f.read((char *) nsig06, sizeof(sigStructV06));
 			SigStruct* nsig = new SigStruct(nsig06);
@@ -321,7 +321,7 @@ int ImgDB::loaddbfromstream(const int dbId, std::ifstream& f, srzMetaDataStruct&
 	} else { // current version
 
 		DiskSigStruct* ndsig = new DiskSigStruct();
-		for (int k = 0; k < szt; k++) {
+		for (unsigned int k = 0; k < szt; k++) {
 
 			f.read((char *) ndsig, sizeof(DiskSigStruct));
 			SigStruct* nsig = new SigStruct(ndsig);
