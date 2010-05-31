@@ -7,11 +7,9 @@ project(${ROOT_PROJECT_NAME})
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 include(Platform)
+include(00-Common)
 
 set ( CMAKE_BUILD_TYPE Debug )
-
-set(IMGDB_PATH "${CMAKE_SOURCE_DIR}/ImgDB" CACHE STRING
-    "Full path to the imgdb source")
 
 add_definitions ( -Wall )
 find_package ( Qt4 REQUIRED )
