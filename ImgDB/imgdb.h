@@ -64,10 +64,10 @@ const float weights[2][6][3]={
 #include <map>
 #include <queue>
 #include <list>
-#ifdef LinuxBuild
-#include <ext/hash_set>
-#else
+#ifdef WINDOWS
 #include <hash_set>
+#else
+#include <ext/hash_set>
 #endif
 // Global typedefs
 typedef long int imageId;
@@ -81,12 +81,12 @@ typedef std::list<imageId> imageId_list;
 typedef imageId_list::iterator imageId_listIterator;
 
 // Sets
-#ifdef LinuxBuild
-using namespace __gnu_cxx;
-typedef __gnu_cxx::hash_set<int> int_hashset;
-#else
+#ifdef WINDOWS
 using namespace stdext;
 typedef stdext::hash_set<int> int_hashset;
+#else
+using namespace __gnu_cxx;
+typedef __gnu_cxx::hash_set<int> int_hashset;
 #endif
 
 class SigStruct;
