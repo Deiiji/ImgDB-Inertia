@@ -64,10 +64,15 @@ const float weights[2][6][3]={
 #include <map>
 #include <queue>
 #include <list>
-#ifdef WINDOWS
-#include <hash_set>
+
+#ifdef WINDOWS //this should be per-compiler, but whatever, screw windows.
+#	include <hash_set>
 #else
-#include <ext/hash_set>
+#   if (__GNUC__ < 4 || __GNUC__ == 4 && __GNUC_MINOR__ < 3)
+#		include <ext/hash_set>
+#   else
+#		include <tr1/unordered_set>
+#	endif
 #endif
 // Global typedefs
 typedef long int imageId;
@@ -86,7 +91,11 @@ using namespace stdext;
 typedef stdext::hash_set<int> int_hashset;
 #else
 using namespace __gnu_cxx;
+#   if (__GNUC__ < 4 || __GNUC__ == 4 && __GNUC_MINOR__ < 3)
 typedef __gnu_cxx::hash_set<int> int_hashset;
+#   else
+typedef std::tr1::unordered_set<int> int_hashset;
+#	endif
 #endif
 
 class SigStruct;
