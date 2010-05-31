@@ -22,6 +22,7 @@ set ( imgdb-dbg_HDRS
 set ( imgdb-dbg_SRCS
 	bloom_filter.cpp
 	haar.cpp
+	imgdb.cpp
 	)
 
 add_library ( imgdb-dbg SHARED ${imgdb-dbg_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
