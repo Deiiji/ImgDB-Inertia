@@ -27,5 +27,8 @@ set ( imgdb-test_SRCS
 	test.cpp
 	)
 
+copy_test_images()
+copy_test_scripts()
+
 add_executable ( imgdb-test ${imgdb-test_SRCS} ${UIS} ${RSCS} ${TRS} ${MOCS} )
 target_link_libraries ( imgdb-test imgdb-dbg ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} )
