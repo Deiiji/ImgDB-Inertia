@@ -7,5 +7,6 @@
 *.dll*
 *.o
 *.db*
+*.user
 imgdb-test
 Makefile

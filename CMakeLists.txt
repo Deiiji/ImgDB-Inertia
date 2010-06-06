@@ -21,3 +21,4 @@ include_directories (
 
 add_subdirectory( ImgDB )
 add_subdirectory( tests )
+add_subdirectory( imgsearch )

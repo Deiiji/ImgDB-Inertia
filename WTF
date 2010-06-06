@@ -1,8 +1,0 @@
-If you're going to build imgdb, do it here.
-
-To build:
-
-cmake ..
-make
-
-That's it!

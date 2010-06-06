@@ -228,16 +228,13 @@ typedef struct srzMetaDataStruct_{
 	int compilePlat;
 } srzMetaDataStruct;
 
-/* Bloom filter globals */
-unsigned int random_bloom_seed = 0; //TODO do I even need to set this to curr time ?
-
 /* signature structure */
 #define AVG_IMGS_PER_DBSPACE 20000
 
 class dbSpaceStruct {
 public:
 	dbSpaceStruct() {
-		imgIdsFilter = new bloom_filter(AVG_IMGS_PER_DBSPACE, 1.0/(100.0 * AVG_IMGS_PER_DBSPACE),random_bloom_seed);
+		imgIdsFilter = new bloom_filter(AVG_IMGS_PER_DBSPACE, 1.0/(100.0 * AVG_IMGS_PER_DBSPACE),0);
 	}
 
 	~dbSpaceStruct()
@@ -281,7 +278,7 @@ class keywordStruct {
 	//std::vector<long int> imgIds;	/* img list */
 public:
 	keywordStruct() {
-		imgIdsFilter = new bloom_filter(AVG_IMGS_PER_KWD, 1.0/(100.0 * AVG_IMGS_PER_KWD),random_bloom_seed);
+		imgIdsFilter = new bloom_filter(AVG_IMGS_PER_KWD, 1.0/(100.0 * AVG_IMGS_PER_KWD),0);
 	}
 	bloom_filter* imgIdsFilter;
 
@@ -314,7 +311,8 @@ public:
 	~ImgDB()
 	{
 		//delete all of our databases from memory
-		closeDbase();
+		if(imgBinInited == 1)
+			closeDbase();
 	}
 
 	// Main exported functions
