@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 {
     ui->setupUi(this);
+    ui->lblSimilarityCutoff->setText(tr("Similarity Cutoff: ") + QString::number(steppedSimilarityVal(ui->sliderSimilarityCutoff->value())) + tr("%"));
 }
 
 MainWindow::~MainWindow()
@@ -63,7 +64,7 @@ void MainWindow::on_btnImage_clicked()
 
 void MainWindow::on_btnFindDuplicates_clicked()
 {
-    float threshold = 0.016;
+    float threshold = 1.0 - (steppedSimilarityVal(float(ui->sliderSimilarityCutoff->value())) / 100.0);
 
     if(!ui->fileImage->text().isEmpty() && !ui->fileSearchPath->text().isEmpty())
     {
@@ -128,6 +129,13 @@ QString MainWindow::diffFormat(float difference)
     return(quickOutput);
 }
 
+float MainWindow::steppedSimilarityVal(int similarityVal)
+{
+    float stepSize = 0.05;
+    float lowerLimit = 95.0;
+    return (float)similarityVal * stepSize + lowerLimit;
+}
+
 void MainWindow::on_tableDuplicates_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn)
 {
     if(currentRow != previousRow) //we don't really care what column was picked
@@ -143,4 +151,9 @@ void MainWindow::on_tableDuplicates_currentCellChanged(int currentRow, int curre
 	    ui->imgDuplicate->clear();
 	}
     }
+}
+
+void MainWindow::on_sliderSimilarityCutoff_sliderMoved(int position)
+{
+    ui->lblSimilarityCutoff->setText(tr("Similarity Cutoff: ") + QString::number(steppedSimilarityVal(position)) + tr("%"));
 }

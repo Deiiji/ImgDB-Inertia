@@ -22,8 +22,10 @@ private:
     Ui::MainWindow *ui;
     ImgDB *testDB;
     QString diffFormat(float difference);
+    float steppedSimilarityVal(int similarityVal);
 
 private slots:
+    void on_sliderSimilarityCutoff_sliderMoved(int position);
     void on_tableDuplicates_currentCellChanged(int currentRow, int currentColumn, int previousRow, int previousColumn);
     void on_btnSearchPath_clicked();
     void on_btnImage_clicked();
